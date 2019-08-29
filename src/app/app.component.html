@@ -1,15 +1,21 @@
-<h1>Dynamic container </h1>
-<div>
-    <p>Output:</p>
-    <p>{{dynamicOutput}}</p>
-</div>
-
-<div class="box">
-    <button (click)="onAddData(0)">Data 1</button>
-    <button (click)="onAddData(1)">Data 2</button>
-</div>
-<div class="placeholder">
- <app-dynamic [inputData]="data" (changeEmit)="changeColor($event)"></app-dynamic>
-  
-</div>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Dynamic container </h1>
+        <div class="box output" *ngIf="dynamicOutput">
+            <p><strong>Dynamic Component Output:</strong></p>
+            <p>{{dynamicOutput}}</p>
+        </div>
+        
+        <div class="box">
+            <button class="button is-primary" (click)="onAddData(0)">Example 1</button>
+            
+            <button class="button is-warning" (click)="onAddData(1)">Example 2</button>
+        </div>
+        <div class="placeholder">
+         <app-dynamic [inputData]="data" (changeEmit)="changeColor($event)"></app-dynamic>
+          
+        </div>
+    
+    </div>
+</section>
 

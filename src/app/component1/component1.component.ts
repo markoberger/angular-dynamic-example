@@ -9,13 +9,13 @@ import { IComp } from '../icomp';
 export class Component1Component implements OnInit, IComp {
   @Output() event = new EventEmitter<string>();
   @Input() text: string;
-
+  textbox: string;
   constructor() { }
 
   ngOnInit() {
   }
 
   onEmit(){
-    this.event.emit('Component 1 was clicked');
+    this.event.emit(this.textbox);
   }
 }

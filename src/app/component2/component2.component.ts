@@ -17,7 +17,7 @@ export class Component2Component implements OnInit, IComp {
   }
 
   onEmit(){
-    this.event.emit('Component 2 was clicked');
+    this.event.emit('Example 2 was clicked');
   }
 
 }

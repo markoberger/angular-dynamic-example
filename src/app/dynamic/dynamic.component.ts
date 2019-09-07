@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, OnChanges, ChangeDetectionStrategy, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, OnChanges, ChangeDetectionStrategy, SimpleChanges, Output, EventEmitter, ComponentRef } from '@angular/core';
 import { Component1Component } from '../component1/component1.component';
 import { PlaceholderDirective } from '../placeholder.directive';
 import { Component2Component } from '../component2/component2.component';
@@ -19,6 +19,7 @@ export class DynamicComponent implements OnInit, OnChanges{
   /**An array where we register what component we want to load */
   components = [Component1Component, Component2Component];
 
+  componentRef: ComponentRef<any>;
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
@@ -37,6 +38,9 @@ export class DynamicComponent implements OnInit, OnChanges{
    * A method that loads and creates instances of components
    */
   loadComponent(){
+    if(this.componentRef){
+      this.componentRef.destroy();
+    }
     /** Preparing our component for creation */
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.components[this.inputData]);
     /** Grabbing reference of our view placeholder */
@@ -44,13 +48,13 @@ export class DynamicComponent implements OnInit, OnChanges{
     /** Clearing our placeholder  */
     viewContainerRef.clear();
     /** Magic of creating a component instance  */
-    const componentRef = viewContainerRef.createComponent(componentFactory);
+    this.componentRef = viewContainerRef.createComponent(componentFactory);
     /** 
      * @Input data into our instance.
      */
-    (componentRef.instance as IComp).text = ''+this.inputData;
+    (this.componentRef.instance as IComp).text = ''+this.inputData;
     /** @Output data from our instance  */
-    (componentRef.instance as IComp).event.subscribe(
+    (this.componentRef.instance as IComp).event.subscribe(
       data => this.changeEmit.emit(data)
     );
   }
